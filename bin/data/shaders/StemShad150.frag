@@ -13,6 +13,7 @@ void main()
   vec4 colorBase = texture(TrunkTextu, st);
 //  ilufact = 4.0*(st.x/450.0-6.0/8.0) +0.5;
 //  ilufact = pow(ilufact,1.5)*0.8;
-  outputColor = vec4(colorBase.xyz*vec3(ilufact,ilufact,ilufact),1.0);
+//  outputColor = vec4(colorBase.xyz*vec3(ilufact,ilufact,ilufact),1.0);
+  outputColor = vec4(colorBase.xyz*vec3(ilufact*.813,ilufact*.822,ilufact*0.67),1.0);
  //   outputColor = vec4(colorBase.xyz,1.0);
 }

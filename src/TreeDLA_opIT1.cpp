@@ -14,8 +14,8 @@ unsigned char Imax = 255;
 ofDirectory dir;
 int FondSize;
 int FondSelect = 1;
-const int Nob=4000;
-const int Ntg=4000;
+const int Nob=3000;
+const int Ntg=3000;
 
  int TargInd[Nob];
 ofVec2f TheObjects[Nob];
@@ -221,7 +221,7 @@ void TreeDLA::setup() {
     BackShader.load("shaders/BackShad150.vert", "shaders/BackShad150.frag");
     
     ofDisableArbTex();
-    ofLoadImage(LeaveTexture, "images/LeavesNew2Changes.png");
+    ofLoadImage(LeaveTexture, "images/leaveCCalpha.png");
     
     LeavesShader.load("shaders/LeavesPSshad150.vert", "shaders/LeavesPSshad150.frag");
   
@@ -578,6 +578,7 @@ void TreeDLA::draw() {
 
   //PorstPro.begin();
   //FboBackground.draw(0, 0, PorstPro.getWidth(), PorstPro.getHeight());
+  //theFrame.draw(0, 0, PorstPro.getWidth(), PorstPro.getHeight());
   //PorstPro.end();
 
   
@@ -1043,149 +1044,6 @@ void TreeDLA::CalculateTreeStructureOP(vector< vector<ofVec2f> >& PosList,ofVec2
      } // for loop cell
   } // while iterations
 } // close function
-
-// void TreeDLA::CalculateTreeStructure(vector< vector<ofVec2f> >& PosList,ofVec2f TargetPoint, float CenFac){
-//    
-//    Xoffset =0;//NoutX*(Nw/width)*(1.0-width/Nw)/2.0;
-//    int it  = 0;
-//    int fullsize = PosList.size();
-//    int EndCount = fullsize;
-//    vector<int> DeadStems(fullsize,0);
-//    while ((EndCount>0)&&(it<60)) {//it<100
-//        it++;
-//        float dt = .2 + it/10000.0;
-//		
-//        
-//        // cout<<PosList.size()<<"\n";
-//        for (int c = 0; c<PosList.size(); c++) {
-//            float minDis =10000000;
-//            int minIndi = -1;
-//            if ((PosList[c].size()>it)||
-//                (DeadStems[c]==1)){
-//                continue;
-//            }
-//            
-//            for (int cn =c+1; cn<PosList.size();cn++){
-//                // looking  for the closer point
-//                if ((PosList[cn].size()==it)&&
-//                    (DeadStems[cn]==0)){
-//                    float dist =PosList[c][it-1].squareDistance(PosList[cn][it-1]);
-//                    if (dist<minDis) {
-//                        minIndi = cn;
-//                        minDis=dist;
-//                    }
-//                }
-//            }
-//            if (minIndi!=-1) {
-//                ofVec2f TheF1;
-//                ofVec2f TheF2;
-//                ofVec2f LocalTarget;
-//                LocalTarget.x = TargetPoint.x;
-//                LocalTarget.y = TargetPoint.y - CenFac*(TargetPoint.y -MAX(PosList[c][it-1].y, PosList[minIndi][it-1].y));
-//                ofVec2f VecN = PosList[minIndi][it-1]-PosList[c][it-1];
-//                ofVec2f VecC1,VecC2;
-//                ofVec2f GradValueC;
-//                ofVec2f GradValueMinIndi;
-//                
-//                
-//                VecC1 = LocalTarget - PosList[c][it-1];
-//                //      VecC1.normalize();
-//                VecC2 = LocalTarget - PosList[minIndi][it-1];
-//                //    VecC2.normalize();
-//                
-//                
-//                VecN.normalize();
-//                VecC1.normalize();
-//                VecC2.normalize();
-//                float lKc;
-//                lKc = ((float)it*(G_ItFact))*Kc;
-//                
-//                TheF1 =VecC1*lKc + VecN*Kn;
-//                
-//                
-//                TheF2 = VecC2*lKc + VecN*(-Kn);
-//                
-//                
-//                // update position
-//                
-//                ofVec2f newPos1 = PosList[c][it-1]+ TheF1*dt;
-//                if(((newPos1.x - LocalTarget.x)*
-//                    (PosList[c][it-1].x - LocalTarget.x))<0){
-//                    newPos1.x = LocalTarget.x;
-//                }
-//                if(newPos1.y>LocalTarget.y){
-//                    newPos1.y=LocalTarget.y;
-//                }
-//                
-//                ofVec2f newPos2 = PosList[minIndi][it-1]+ TheF2*dt;
-//                if(((newPos2.x - LocalTarget.x)*
-//                    (PosList[minIndi][it-1].x - LocalTarget.x))<0){
-//                    newPos2.x = LocalTarget.x;
-//                }
-//                if(newPos2.y>LocalTarget.y){
-//                    newPos2.y=LocalTarget.y;
-//                }
-//                
-//                
-//                // creating the new  list
-//                
-//                PosList[c].push_back(newPos1);
-//                if (newPos1.distanceSquared(newPos2)>joinTh){
-//                    PosList[minIndi].push_back(newPos2);
-//                }
-//                else{
-//                    PosList[minIndi].push_back(newPos1);
-//                    DeadStems[minIndi]=1;
-//                    EndCount--;
-//               if(newPos1.distanceSquared(LocalTarget)<G_ThTarget)
-//                    {
-//                        PosList[c].push_back(LocalTarget);
-//                        PosList[c].push_back(TargetPoint);
-//                        DeadStems[c]=1;
-//                        EndCount--;
-//                    }
-//                }
-//                
-//                
-//            }//end if pair found
-//            else{ //if not pair paint single (NumN closest were occupy)
-//                
-//                ofVec2f TheF1;
-//                ofVec2f VecC;
-//                ofVec2f LocalTarget;
-//                LocalTarget.x = TargetPoint.x;
-//                LocalTarget.y = TargetPoint.y - CenFac*(TargetPoint.y -PosList[c][it-1].y);
-//                float lKc;
-//                lKc = ((float)it*(G_ItFact))*Kc;
-//                VecC = LocalTarget - PosList[c][it-1];
-//                VecC.normalize();
-//                TheF1 = VecC*lKc;
-//                ofVec2f newPos1 = PosList[c][it-1]+ TheF1*(dt);
-//                if(((newPos1.x - LocalTarget.x)*
-//                    (PosList[c][it-1].x - LocalTarget.x))<0){
-//                    newPos1.x = LocalTarget.x;
-//                }
-//                if(newPos1.y>LocalTarget.y){
-//                    newPos1.y=LocalTarget.y;
-//                }
-//                
-//                 PosList[c].push_back(newPos1);
-//                if(newPos1.distanceSquared(LocalTarget)<G_ThTarget)
-//                {
-//                    PosList[c].push_back(LocalTarget);
-//                    PosList[c].push_back(TargetPoint);
-//                    DeadStems[c]=1;
-//                    EndCount--;
-//                }
-//            }// end no pair found
-//        }// end loop all the elements
-//
-//    } // end while iterations
-//    
-//  //  return PosList;
-//
-//}
-
 
 
 

@@ -13,25 +13,30 @@ void main()
     //gl_FragColor =vec4(gl_TexCoord[0].s,gl_TexCoord[0].t,0.0,1.0);
     
     
-    vec2 SunPos = vec2(XYDim.x,XYDim.y/4.0);
-    float distaTosun =distance(Hojacord,SunPos);
+	vec2 dirSun = vec2(0.8, 0.2);
+	dirSun = normalize(dirSun);
     
     mat2 RotMat = mat2(cos(TheAngle),sin(TheAngle),
                        -sin(TheAngle),cos(TheAngle));
     vec2 NewCords = RotMat*(gl_PointCoord-vec2(0.5)) + vec2(0.5);
     vec4 thecolor = texture(tex,NewCords);
 
-  float facto = 1.0;//pow(1.0 - distaTosun/XYDim.x,.4);//.4
+  float facto = 5.0*dot(dirSun, gl_PointCoord - vec2(0.5));
+  if (facto < 0.0){facto = 0.0;}
     // con LeavesNew.pnga
 //    gl_FragColor = vec4(thecolor.a*thecolor.r*.4*facto,
 //                        thecolor.a*thecolor.g*.3*facto,
 //                       thecolor.a*thecolor.b*.2*facto,
 //                        1.0);
 	if(thecolor.a > 0.0){
-    outputColor = vec4(thecolor.r*.7*facto,
-                        thecolor.r*.7*facto,
-                        thecolor.b*.2,
+	    outputColor = vec4(thecolor.r + 0.1*facto,
+                        thecolor.r + 0.1*facto,
+                        thecolor.b,
                         1.0);
+    //outputColor = vec4(thecolor.r*.7*facto,
+    //                    thecolor.r*.7*facto,
+    //                    thecolor.b*.2,
+    //                    1.0);
 						}
 
 	else{

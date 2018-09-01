@@ -31,4 +31,5 @@ void main()
     ilufact = pow(ilufact,1.5)*0.8;
     
     outputColor = vec4(colorBase.w*colorBase.xyz*vec3(ilufact*.813,ilufact*.822,ilufact*0.67),colorBase.w);
+  //outputColor = vec4(colorBase.xyz,colorBase.w);
 }
